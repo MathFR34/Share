@@ -24,5 +24,4 @@ Pour test
 ```sh
 $ docker exec ldap-service ldapsearch -x -H ldap://localhost -b dc=math,dc=lab -D  "cn=admin,dc=math,dc=lab" -w admin
 ```
-# Share
- 
+
