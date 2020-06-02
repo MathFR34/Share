@@ -1,0 +1,45 @@
+docker run --name mongo -d mongo:3
+docker run --name elasticsearch -e "http.host=0.0.0.0" -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" -d docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.5
+docker run --name graylog --link mongo --link elasticsearch -p 9000:9000 -p 12201:12201 -p 1514:1514 -e GRAYLOG_HTTP_EXTERNAL_URI="http://127.0.0.1:9000/" -d graylog/graylog:3.2
+
+# Install and configure NX log agent
+# nxlog.conf de l'agent puis restart service
+# ==========================================================
+Panic Soft
+#NoFreeOnExit TRUE
+
+define ROOT     C:\Program Files (x86)\nxlog
+define CERTDIR  %ROOT%\cert
+define CONFDIR  %ROOT%\conf
+define LOGDIR   %ROOT%\data
+define LOGFILE  %LOGDIR%\nxlog.log
+LogFile %LOGFILE%
+
+Moduledir %ROOT%\modules
+CacheDir  %ROOT%\data
+Pidfile   %ROOT%\data\nxlog.pid
+SpoolDir  %ROOT%\data
+
+
+<Extension _gelf>
+    Module      xm_gelf
+</Extension>
+
+<Input in>
+	Module im_msvistalog
+</Input>
+
+<Output out>
+    Module      om_udp
+    Host        192.168.250.101
+    Port        12201
+    OutputType  GELF
+</Output>
+
+<Route 1>
+	Path in => out
+</Route>
+# ==========================================================
+
+# Générer un EVENT sous Windows 
+EVENTCREATE /ID 1 /L APPLICATION /T INFORMATION /SO GRAYLOGSOURCE /D “Event testing”
