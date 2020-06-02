@@ -9,7 +9,15 @@ Cet espace est prévu pour mettre à dispo des fichiers sur lesquels je réalise
 
 Le docker-compose;yml contient la stack elk et le container LDAP.
 
+Linux shell
+```powersell
+$ wget https://raw.githubusercontent.com/MathFR34/Share/master/OpenDisto%20%26%20LDAP/Docker-compose.yml  -OutFile Docker-compose.yml
+$ docker-compose up
+```
+
+Powershell
 ```sh
+$ wget https://raw.githubusercontent.com/MathFR34/Share/master/OpenDisto%20%26%20LDAP/Docker-compose.yml
 $ docker-compose up
 ```
 
